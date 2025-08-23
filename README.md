@@ -142,8 +142,3 @@ You can customize the calendar’s behavior and appearance with these properties
 
 Contributions are welcome!
 Please open an issue or submit a pull request if you’d like to improve the package.
-
-
-**`LICENSE`**
-
-Create a `LICENSE` file and add the text of a license like the [MIT License](https://opensource.org/licenses/MIT).
