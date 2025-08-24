@@ -175,3 +175,5 @@ You can customize the calendar’s behavior and appearance with these properties
 
 Contributions are welcome!
 Please open an issue or submit a pull request if you’d like to improve the package.
+
+<a href="https://www.buymeacoffee.com/smkamal" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
