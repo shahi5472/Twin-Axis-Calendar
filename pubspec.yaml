@@ -1,7 +1,7 @@
 name: twin_axis_calendar
 description: "A Flutter calendar widget with vertical scrolling views and a horizontally scrollable date header."
 version: 0.0.1
-homepage:
+homepage: https://github.com/shahi5472/Twin-Axis-Calendar.git
 
 environment:
   sdk: ^3.9.0
