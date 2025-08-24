@@ -3,6 +3,12 @@
 A customizable twin calendar widget for Flutter that displays a **horizontal date selector** synced
 with a **vertical, scrollable list of events**.
 
+![Screenshot 1](screenshots/screenshot_1.jpeg)
+
+![Screenshot 2](screenshots/screenshot_2.jpeg)
+
+![Demo GIF](screenshots/twin_axis_calendar.gif)
+
 ---
 
 ## ✨ Features
@@ -40,21 +46,42 @@ import 'package:twin_axis_calendar/twin_axis_calendar.dart';
 Basic Usage
 ```dart
 
+
 class MyCalendarPage extends StatelessWidget {
-  // Sample event data
-  final Map<DateTime, List<String>> _events = {
-    DateTime.now().add(const Duration(days: 1)): ['Meeting with team', 'Lunch'],
-    DateTime.now(): ['Project Deadline'],
-  };
+  const MyCalendarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateOnly(DateTime date) => DateTime(date.year, date.month, date.day);
+
+    // Dummy event data (all normalized)
+    final Map<DateTime, List<String>> _events = {
+      dateOnly(DateTime.now()): ['Project Deadline', 'Evening Gym'],
+      dateOnly(DateTime.now().add(const Duration(days: 1))): ['Team Meeting', 'Lunch with Client'],
+      dateOnly(DateTime.now().add(const Duration(days: 2))): [
+        'Doctor Appointment',
+        'Dinner with Family'
+      ],
+      dateOnly(DateTime.now().subtract(const Duration(days: 1))): [
+        'Grocery Shopping',
+        'Call with Manager'
+      ],
+      dateOnly(DateTime.now().add(const Duration(days: 3))): [
+        'Weekend Trip Planning',
+        'Movie Night'
+      ],
+      dateOnly(DateTime.now().add(const Duration(days: 5))): [
+        'Code Review Session',
+        'Company Party'
+      ],
+    };
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Twin Axis Calendar Example')),
+      appBar: AppBar(title: const Text('Twin Calendar Example')),
       body: TwinCalendarMain<String>(
         selectedDate: DateTime.now(),
         items: (date) {
-          // Return events for the given date
+          // Normalize date (remove time part)
           final dateOnly = DateTime(date.year, date.month, date.day);
           return _events[dateOnly] ?? [];
         },
@@ -63,7 +90,7 @@ class MyCalendarPage extends StatelessWidget {
             width: 80,
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isSelected ? Colors.blue : Colors.grey,
+              color: isSelected ? Colors.blue : Colors.grey.shade300,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -74,13 +101,15 @@ class MyCalendarPage extends StatelessWidget {
                   style: TextStyle(
                     color: isSelected ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
                 ),
                 Text(
-                  // Use intl package for better formatting
+                  // Use intl for real apps → DateFormat('E').format(date)
                   ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][date.weekday - 1],
                   style: TextStyle(
-                    color: isSelected ? Colors.white70 : Colors.grey,
+                    color: isSelected ? Colors.white70 : Colors.black87,
+                    fontSize: 12,
                   ),
                 ),
               ],
@@ -92,16 +121,20 @@ class MyCalendarPage extends StatelessWidget {
             color: Theme.of(context).scaffoldBackgroundColor,
             padding: const EdgeInsets.all(12),
             child: Text(
-              // Use intl package for better formatting
+              // You can format with intl → DateFormat('yMMMMd').format(date)
               '${date.year}-${date.month}-${date.day}',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           );
         },
         onEventBuilder: (date, event) {
-          return ListTile(
-            title: Text(event),
-            subtitle: Text('Event on $date'),
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: ListTile(
+              leading: const Icon(Icons.event),
+              title: Text(event),
+              subtitle: Text('Event on ${date.year}-${date.month}-${date.day}'),
+            ),
           );
         },
         onEmptyBuilder: () {
